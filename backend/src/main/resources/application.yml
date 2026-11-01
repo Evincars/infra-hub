@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: service-watcher
+
+  # Java 21 virtual threads for request handling and @Scheduled tasks
+  threads:
+    virtual:
+      enabled: true
+
+  # Defaults match the MySQL service in ../docker-compose.yml; override via env vars in other environments.
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:service_watcher}
+    username: ${DB_USER:watcher}
+    password: ${DB_PASSWORD:watcher}
+    hikari:
+      maximum-pool-size: ${DB_POOL_SIZE:10}
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      # Flyway owns the schema; Hibernate only verifies the mapping matches it.
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+        type:
+          # Map java.time.Instant to DATETIME(6) instead of TIMESTAMP (avoids the 2038 limit and validation mismatch)
+          preferred_instant_jdbc_type: TIMESTAMP
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+  mvc:
+    # RFC 9457 problem+json error responses
+    problemdetails:
+      enabled: true
+
+server:
+  port: ${SERVER_PORT:8080}
+  shutdown: graceful
+
+watcher:
+  ping:
+    enabled: ${PING_ENABLED:true}
+    interval: ${PING_INTERVAL:PT30S}           # delay between the end of one run and the start of the next
+    initial-delay: ${PING_INITIAL_DELAY:PT10S}
+    connect-timeout: PT5S
+    request-timeout: PT10S
+    max-concurrency: 50                        # max URLs probed in parallel
