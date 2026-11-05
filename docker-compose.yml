@@ -1,22 +1,22 @@
 services:
-  mysql:
-    image: mysql:8.4
-    container_name: service-watcher-mysql
+  postgres:
+    image: postgres:18
+    container_name: service-watcher-postgres
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: service_watcher
-      MYSQL_USER: watcher
-      MYSQL_PASSWORD: watcher
-      MYSQL_ROOT_PASSWORD: root
+      POSTGRES_DB: service_watcher
+      POSTGRES_USER: watcher
+      POSTGRES_PASSWORD: watcher
     ports:
-      - "3306:3306"
+      - "5432:5432"
     volumes:
-      - mysql-data:/var/lib/mysql
+      # postgres 18+ keeps data in a versioned subdirectory, so mount the parent directory
+      - postgres-data:/var/lib/postgresql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot"]
+      test: ["CMD-SHELL", "pg_isready -U watcher -d service_watcher"]
       interval: 5s
       timeout: 3s
       retries: 20
 
 volumes:
-  mysql-data:
+  postgres-data:

@@ -7,9 +7,9 @@ spring:
     virtual:
       enabled: true
 
-  # Defaults match the MySQL service in ../docker-compose.yml; override via env vars in other environments.
+  # Defaults match the PostgreSQL service in ../docker-compose.yml; override via env vars in other environments.
   datasource:
-    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:service_watcher}
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:service_watcher}
     username: ${DB_USER:watcher}
     password: ${DB_PASSWORD:watcher}
     hikari:
@@ -20,13 +20,6 @@ spring:
     hibernate:
       # Flyway owns the schema; Hibernate only verifies the mapping matches it.
       ddl-auto: validate
-    properties:
-      hibernate:
-        jdbc:
-          time_zone: UTC
-        type:
-          # Map java.time.Instant to DATETIME(6) instead of TIMESTAMP (avoids the 2038 limit and validation mismatch)
-          preferred_instant_jdbc_type: TIMESTAMP
 
   flyway:
     enabled: true

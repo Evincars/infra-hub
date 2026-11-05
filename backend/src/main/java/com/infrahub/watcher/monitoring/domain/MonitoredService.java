@@ -13,8 +13,6 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 /**
  * A URL whose availability is periodically checked.
@@ -38,9 +36,7 @@ public class MonitoredService {
     @Column(nullable = false, length = 2048)
     private String url;
 
-    // Hibernate 6 maps STRING enums to a native MySQL ENUM by default; force VARCHAR to match the migration.
     @Enumerated(EnumType.STRING)
-    @JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(name = "last_status", nullable = false, length = 16)
     private ServiceStatus lastStatus = ServiceStatus.UNKNOWN;
 

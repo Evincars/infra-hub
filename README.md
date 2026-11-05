@@ -52,7 +52,7 @@ Register a URL, and Service Watcher pings it on a schedule, records whether it's
 
 ### Database & infrastructure
 
-[![MySQL](https://img.shields.io/badge/MySQL_8.4-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://dev.mysql.com/doc/refman/8.4/en/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL_18-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/docs/18/)
 [![Flyway](https://img.shields.io/badge/Flyway-CC0200?style=for-the-badge&logo=flyway&logoColor=white)](https://documentation.red-gate.com/flyway)
 [![Docker Compose](https://img.shields.io/badge/Docker_Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://docs.docker.com/compose/)
 
@@ -88,7 +88,7 @@ flowchart LR
         Pinger["PingService<br/>@Scheduled + virtual threads"]
     end
 
-    DB[("MySQL 8.4<br/>Flyway-managed schema")]
+    DB[("PostgreSQL 18<br/>Flyway-managed schema")]
     Targets["Monitored URLs<br/>(your APIs & servers)"]
 
     UI -- "HTTP / JSON" --> API
@@ -126,7 +126,7 @@ infra-hub/
 │       ├── components/       # shadcn/ui primitives + app layout
 │       ├── stores/           # Zustand UI-preferences store
 │       └── lib/              # API client, formatting helpers
-├── docker-compose.yml        # Local MySQL
+├── docker-compose.yml        # Local PostgreSQL
 └── LICENSE
 ```
 
@@ -150,7 +150,7 @@ Maven isn't required: the backend ships with the Maven Wrapper (`./mvnw`).
 docker compose up -d
 ```
 
-This starts MySQL 8.4 on `localhost:3306` with database `service_watcher` and user `watcher` / `watcher`.
+This starts PostgreSQL 18 on `localhost:5432` with database `service_watcher` and user `watcher` / `watcher`.
 
 ### 2. Run the backend
 
@@ -189,8 +189,8 @@ Defined in [`backend/src/main/resources/application.yml`](backend/src/main/resou
 
 | Environment variable | Default | Description |
 | --- | --- | --- |
-| `DB_HOST` | `localhost` | MySQL host |
-| `DB_PORT` | `3306` | MySQL port |
+| `DB_HOST` | `localhost` | PostgreSQL host |
+| `DB_PORT` | `5432` | PostgreSQL port |
 | `DB_NAME` | `service_watcher` | Database name |
 | `DB_USER` / `DB_PASSWORD` | `watcher` / `watcher` | Database credentials |
 | `DB_POOL_SIZE` | `10` | Max JDBC connections |
@@ -278,7 +278,7 @@ New database changes go in a new Flyway migration (`backend/src/main/resources/d
 - [ ] Response time and status history per service
 - [ ] Notifications on status change (e-mail, Slack, webhooks)
 - [ ] Distributed scheduler lock (e.g. ShedLock) for running multiple backend instances
-- [ ] Integration tests against real MySQL with Testcontainers
+- [ ] Integration tests against real PostgreSQL with Testcontainers
 - [ ] Production deployment setup (container images, reverse proxy for `/api`)
 
 ## License

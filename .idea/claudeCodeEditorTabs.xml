@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ClaudeCodeEditorTabs">
-    <option name="activeSessionId" value="0d474c60-4051-4587-a35a-020e205d641d" />
+    <option name="activeSessionId" value="da111ef9-2fde-4a0c-b5e7-824dff82f62b" />
     <option name="openSessionIds">
       <list>
         <option value="cc217a82-96f0-49e3-a4f5-e30fd852a806" />
         <option value="b0f440ab-b260-430b-8442-c1c5172603fc" />
         <option value="2fa4b2d2-b933-4e00-9f39-7f5f1064b087" />
         <option value="0d474c60-4051-4587-a35a-020e205d641d" />
+        <option value="b97f877f-3317-418a-b3d1-9c0b8438a0b8" />
+        <option value="da111ef9-2fde-4a0c-b5e7-824dff82f62b" />
       </list>
     </option>
     <option name="sessionPaths">
@@ -15,7 +17,9 @@
         <entry key="0d474c60-4051-4587-a35a-020e205d641d" value="/sessions/14422f9c-b37c-444f-b990-843a6ec728a7" />
         <entry key="2fa4b2d2-b933-4e00-9f39-7f5f1064b087" value="/sessions/new" />
         <entry key="b0f440ab-b260-430b-8442-c1c5172603fc" value="/switch-account" />
+        <entry key="b97f877f-3317-418a-b3d1-9c0b8438a0b8" value="/sessions/new" />
         <entry key="cc217a82-96f0-49e3-a4f5-e30fd852a806" value="/switch-account" />
+        <entry key="da111ef9-2fde-4a0c-b5e7-824dff82f62b" value="/sessions/54cb5cbb-045a-402d-b8f7-d13c17ee3c37" />
       </map>
     </option>
     <option name="sessionTitles">
@@ -23,7 +27,9 @@
         <entry key="0d474c60-4051-4587-a35a-020e205d641d" value="Service Watcher Spring Boot setup" />
         <entry key="2fa4b2d2-b933-4e00-9f39-7f5f1064b087" value="Claude Code" />
         <entry key="b0f440ab-b260-430b-8442-c1c5172603fc" value="localhost:42353/switch-account?workingDir=%2Fhome%2Fevincars%2Fevicars.github.com%2Finfra-hub&amp;panelId=b0f440ab-b260-430b-8442-c1c5172603fc&amp;theme=dark" />
+        <entry key="b97f877f-3317-418a-b3d1-9c0b8438a0b8" value="Claude Code" />
         <entry key="cc217a82-96f0-49e3-a4f5-e30fd852a806" value="Claude Code" />
+        <entry key="da111ef9-2fde-4a0c-b5e7-824dff82f62b" value="Switch MySQL to PostgreSQL" />
       </map>
     </option>
   </component>
