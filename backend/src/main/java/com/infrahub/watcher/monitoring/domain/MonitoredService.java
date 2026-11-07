@@ -19,6 +19,14 @@ import lombok.NoArgsConstructor;
  * <p>
  * Deliberately not using {@code @Data}: generated equals/hashCode/setters on JPA entities
  * break identity semantics and let callers overwrite fields such as the id.
+ * <p>
+ * Pro juniora: {@code @Entity} označuje objekt mapovaný pomocí JPA;
+ * {@code @Table} určuje tabulku a {@code @Column} mapování sloupců.
+ * Entita sama o sobě není Spring bean: jednotlivé řádky načítá a spravuje JPA.
+ * {@code @Id} označuje primární klíč a {@code @GeneratedValue} jeho generování
+ * databází. {@code @Enumerated(EnumType.STRING)} ukládá název hodnoty enumu,
+ * ne její pořadové číslo. Lombok {@code @Getter} generuje gettery při kompilaci
+ * a {@code @NoArgsConstructor} vytváří bezparametrický konstruktor potřebný pro JPA.
  */
 @Entity
 @Table(name = "monitored_service")

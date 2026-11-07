@@ -26,6 +26,7 @@ Register a URL, and Service Watcher pings it on a schedule, records whether it's
 - [REST API](#rest-api)
 - [How monitoring works](#how-monitoring-works)
 - [Development](#development)
+- [Learning in Czech](#learning-in-czech)
 - [Roadmap](#roadmap)
 - [License](#license)
 
@@ -271,6 +272,46 @@ cd frontend && npm run build && npm run lint
 ```
 
 New database changes go in a new Flyway migration (`backend/src/main/resources/db/migration/V2__....sql`); never edit a migration that has already been applied.
+
+## Learning in Czech
+
+The backend includes Czech junior-friendly Javadoc explaining beans, constructor
+injection, JPA entities, `JpaRepository`, transactions and the difference between
+the documentation tag `@param` and the Spring Data annotation `@Param`.
+Start with the printable [Spring/JPA cheat sheet](docs/learning/reference/spring-zaklady.html)
+(open the HTML file in a browser).
+
+Project-local skills are installed in `.agents/skills/` for GitHub Copilot and
+linked from `.claude/skills/` for Claude Code:
+
+| Skill | Purpose |
+| --- | --- |
+| `java-springboot` | Spring Boot application patterns |
+| `java-docs` | Accurate Java/Javadoc documentation |
+| `java-hibernate-jpa` | Entity mapping and persistence |
+| `spring-boot-testing` | Unit, slice and integration testing guidance |
+| `vercel-react-best-practices` | React performance; use Vite-compatible rules, not Next.js-specific ones |
+| `teach` (Matt Pocock) | Stateful lessons, exercises and reference sheets |
+
+In Claude Code, run `/teach` or `/teach @Transactional` from this project.
+For Copilot clients supporting repository prompt files, `.github/prompts/teach.prompt.md`
+provides the `/teach` prompt. If a client does not expose custom slash commands,
+ask it to use `.agents/skills/teach/SKILL.md` with the teaching settings in `AGENTS.md`.
+Restart the agent session if newly installed skills/prompts are not yet visible.
+
+Teaching is in Czech, grounded in this project's code. Each session produces a
+short HTML lesson and a printable HTML cheat sheet under `docs/learning/`;
+learning records reflect answers given by the learner, not assumed mastery.
+`AGENTS.md` contains the local settings and `CLAUDE.md` imports them. The upstream
+skills remain unchanged so updating them does not overwrite these settings.
+
+Sources and hashes are recorded in `skills-lock.json`. To reinstall individually:
+
+```bash
+npx skills add https://github.com/github/awesome-copilot --skill java-springboot java-docs java-hibernate-jpa spring-boot-testing --agent github-copilot claude-code --yes
+npx skills add https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices --agent github-copilot claude-code --yes
+npx skills add https://github.com/mattpocock/skills --skill teach --agent github-copilot claude-code --yes
+```
 
 ## Roadmap
 

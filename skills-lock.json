@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "skills": {
+    "java-docs": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "skillPath": "skills/java-docs/SKILL.md",
+      "computedHash": "756da7d40308284f2d1aafe216df03fdb4a106e24193ade34bb5b175f401211a"
+    },
+    "java-hibernate-jpa": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "skillPath": "skills/java-hibernate-jpa/SKILL.md",
+      "computedHash": "6a3c73deca92cd766382e6cc4af5b729eb9426fc65c8c1f7da79a52dc98a53e2"
+    },
+    "java-springboot": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "skillPath": "skills/java-springboot/SKILL.md",
+      "computedHash": "108cb49f1d7950889b6223e5810266f1ff38bf62a0d52d932f6edc607a0ddfbf"
+    },
+    "spring-boot-testing": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "skillPath": "skills/spring-boot-testing/SKILL.md",
+      "computedHash": "7f9a21e9d049adab263a83e83f5be6a01c8c2a50ef8dbe7a3f1365094b8aa080"
+    },
+    "teach": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "skillPath": "skills/productivity/teach/SKILL.md",
+      "computedHash": "81c196426808c270a9d4688be291405c038bba11f020b9fe10098ad0f1d8c132"
+    },
+    "vercel-react-best-practices": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/react-best-practices/SKILL.md",
+      "computedHash": "3219a1944e404ffc14d1d9d6aef6dd2e3855b81387ee0a044ccbfe14d34c2357"
+    }
+  }
+}

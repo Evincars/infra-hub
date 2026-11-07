@@ -25,6 +25,12 @@ import org.springframework.stereotype.Service;
  *       so one slow endpoint can't delay the rest.</li>
  *   <li>No DB transaction is held during network I/O; each result is written with a small targeted update.</li>
  * </ul>
+ * <p>
+ * Pro juniora: {@code @Scheduled} nechá Spring pravidelně volat {@code pingAll}.
+ * Fixed delay je pauza od konce jednoho běhu do začátku dalšího.
+ * Virtuální vlákna jsou lehká vlákna vhodná pro čekání na síť; sama neomezují
+ * počet souběžných HTTP požadavků, proto zde používáme {@code Semaphore}.
+ * {@code @Slf4j} přes Lombok vytvoří logger {@code log}.
  */
 @Slf4j
 @Service

@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tahák: Spring a JPA v Service Watcheru</title>
+  <link rel="stylesheet" href="../assets/teaching.css">
+</head>
+<body>
+<main>
+  <h1>Spring a JPA: tahák pro juniora</h1>
+  <p>Příklady pocházejí z backendu Service Watcher (Java 21, Spring Boot 3).
+    Tahák lze vytisknout přímo z prohlížeče.</p>
+
+  <h2>Jak putuje požadavek</h2>
+  <p><code>HTTP → MonitoredServiceController → MonitoredServiceManager
+    → MonitoredServiceRepository → Hibernate → PostgreSQL</code></p>
+  <p>Controller řeší HTTP a DTO. Manager řeší aplikační operace a transakce.
+    Repository poskytuje přístup k entitám. Hibernate převádí práci s entitami na SQL.</p>
+
+  <h2>Slovníček s příklady</h2>
+  <table>
+    <thead><tr><th scope="col">Pojem</th><th scope="col">Co znamená a kde ho najdu</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Bean</th><td>Objekt spravovaný Spring kontejnerem.
+        Výchozí singleton znamená jeden objekt pro definici beanu v kontejneru.
+        <a href="../../../backend/src/main/java/com/infrahub/watcher/config/ClockConfig.java"><code>ClockConfig</code></a>
+        registruje hodiny pomocí <code>@Bean</code>.</td></tr>
+      <tr><th scope="row"><code>@Configuration</code> / <code>@Bean</code></th><td>
+        Konfigurační třída / metoda, jejíž návratový objekt se registruje jako bean.
+        Argumenty metody dodá Spring.</td></tr>
+      <tr><th scope="row">Dependency injection</th><td>Objekt dostane závislosti zvenku
+        místo jejich vlastní konstrukce. Spring předá repository do konstruktoru manageru.
+        Lombok <code>@RequiredArgsConstructor</code> tento konstruktor generuje pro
+        neinicializovaná <code>final</code> pole (a požadovaná <code>@NonNull</code> pole).</td></tr>
+      <tr><th scope="row"><code>@Service</code></th><td>Označí aplikační službu,
+        kterou component scan zaregistruje jako bean. Například
+        <a href="../../../backend/src/main/java/com/infrahub/watcher/monitoring/application/MonitoredServiceManager.java"><code>MonitoredServiceManager</code></a>.</td></tr>
+      <tr><th scope="row">JPA / Hibernate</th><td>JPA je standard pro objektově-relační
+        mapování. Hibernate je jeho implementace používaná v tomto projektu.</td></tr>
+      <tr><th scope="row"><code>@Entity</code></th><td>Java objekt mapovaný na databázový
+        řádek, nikoli automaticky Spring bean.
+        <a href="../../../backend/src/main/java/com/infrahub/watcher/monitoring/domain/MonitoredService.java"><code>MonitoredService</code></a>
+        má <code>@Id</code> jako primární klíč a <code>@Column</code> pro mapování sloupců.</td></tr>
+      <tr><th scope="row"><code>JpaRepository&lt;MonitoredService, Long&gt;</code></th><td>
+        Rozhraní s operacemi jako <code>findById</code>, <code>save</code> a <code>delete</code>.
+        Typy znamenají entitu a její ID. Spring Data vytvoří implementaci za běhu;
+        <a href="../../../backend/src/main/java/com/infrahub/watcher/monitoring/persistence/MonitoredServiceRepository.java">naše repository</a>
+        ji nemusí psát ručně.</td></tr>
+      <tr><th scope="row"><code>@Transactional</code></th><td>Určuje transakční hranici.
+        Standardně se připojí k existující transakci, nebo otevře novou.
+        Úspěšná transakce se potvrdí (commit); při <code>RuntimeException</code>
+        nebo <code>Error</code> se standardně vrátí zpět (rollback).
+        Checked výjimka standardně automatický rollback nevyvolá.</td></tr>
+      <tr><th scope="row">Dirty checking</th><td>Hibernate sleduje spravovanou entitu
+        uvnitř persistence contextu. Při flush zapíše změny. Proto manager v
+        <code>update</code> po načtení a změně entity nemusí znovu volat <code>save</code>.</td></tr>
+      <tr><th scope="row"><code>@RestController</code> / DTO</th><td>Controller vrací tělo HTTP
+        odpovědi, zde JSON. DTO je datový objekt pro API, oddělený od entity.
+        <code>@RequestBody</code> načte tělo požadavku a <code>@Valid</code>
+        spustí validaci omezení na request DTO.</td></tr>
+    </tbody>
+  </table>
+
+  <h2><code>@param</code> není <code>@Param</code></h2>
+  <pre><code>/**
+ * @param id ID služby, jejíž stav zapisujeme
+ * @return počet změněných řádků
+ */
+@Transactional
+@Modifying
+@Query("update MonitoredService s set s.lastStatus = :status where s.id = :id")
+int updateStatus(@Param("id") Long id, @Param("status") ServiceStatus status);</code></pre>
+  <p>Ukázka je zkrácená: skutečná metoda zapisuje také čas kontroly.
+    <strong><code>@param</code></strong> je Javadoc tag uvnitř komentáře: popisuje
+    argument, ale nemění chování. <strong><code>@Param("id")</code></strong> je
+    Spring Data anotace: sváže argument s <code>:id</code> v dotazu.
+    <code>@return</code> dokumentuje návratovou hodnotu;
+    <code>@throws</code> dokumentuje podmínku vyvolání výjimky.</p>
+  <p><code>@Query</code> zde obsahuje JPQL (názvy entit a atributů),
+    nikoli SQL (názvy tabulek a sloupců). <code>@Modifying</code> označuje měnící dotaz.</p>
+
+  <h2>Časté chyby</h2>
+  <p class="warning"><code>readOnly = true</code> je optimalizační pokyn, ne spolehlivý
+    zákaz zápisu. Transakční proxy zachytí volání zvenku přes Spring bean;
+    volání vlastní metody přes <code>this</code> samo novou transakci nezapne.
+    <code>new MonitoredServiceManager(...)</code> v běžném unit testu také nemá
+    Spring transakční proxy.</p>
+  <p>HTTP kontrola může dlouho čekat. <code>PingService</code> proto nedrží databázovou
+    transakci během síťového volání; až výsledek uloží krátkým cíleným zápisem.</p>
+
+  <h2>Ověř si porozumění</h2>
+  <p>Proč je <code>Clock</code> bean, ale každá načtená <code>MonitoredService</code>
+    není Spring bean? Odpověď zkus vysvětlit na jejich životním cyklu.
+    Samotné přečtení taháku ještě neznamená zvládnutí tématu.</p>
+
+  <h2>Oficiální zdroje pro další studium</h2>
+  <ul>
+    <li><a href="https://docs.spring.io/spring-framework/reference/core/beans/introduction.html">Spring: kontejner a beany</a></li>
+    <li><a href="https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/annotations.html">Spring: transakční anotace a proxy</a></li>
+    <li><a href="https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html">Spring Data JPA: dotazy a parametry</a></li>
+    <li><a href="https://docs.oracle.com/en/java/javase/21/docs/specs/javadoc/doc-comment-spec.html">Java 21: Javadoc tagy</a></li>
+  </ul>
+</main>
+</body>
+</html>
