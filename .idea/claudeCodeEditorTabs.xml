@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ClaudeCodeEditorTabs">
-    <option name="activeSessionId" value="0d474c60-4051-4587-a35a-020e205d641d" />
+    <option name="activeSessionId" value="af698ba6-beac-4bfa-a030-b5a582c6806d" />
     <option name="openSessionIds">
       <list>
         <option value="cc217a82-96f0-49e3-a4f5-e30fd852a806" />
         <option value="b0f440ab-b260-430b-8442-c1c5172603fc" />
         <option value="2fa4b2d2-b933-4e00-9f39-7f5f1064b087" />
         <option value="0d474c60-4051-4587-a35a-020e205d641d" />
+        <option value="af698ba6-beac-4bfa-a030-b5a582c6806d" />
       </list>
     </option>
     <option name="sessionPaths">
       <map>
         <entry key="0d474c60-4051-4587-a35a-020e205d641d" value="/sessions/14422f9c-b37c-444f-b990-843a6ec728a7" />
         <entry key="2fa4b2d2-b933-4e00-9f39-7f5f1064b087" value="/sessions/new" />
+        <entry key="af698ba6-beac-4bfa-a030-b5a582c6806d" value="/sessions/c49d7626-09df-4c29-8596-9bd58c35c1af" />
         <entry key="b0f440ab-b260-430b-8442-c1c5172603fc" value="/switch-account" />
         <entry key="cc217a82-96f0-49e3-a4f5-e30fd852a806" value="/switch-account" />
       </map>
@@ -22,6 +24,7 @@
       <map>
         <entry key="0d474c60-4051-4587-a35a-020e205d641d" value="Service Watcher Spring Boot setup" />
         <entry key="2fa4b2d2-b933-4e00-9f39-7f5f1064b087" value="Claude Code" />
+        <entry key="af698ba6-beac-4bfa-a030-b5a582c6806d" value="Spring Boot run error ./mvnw" />
         <entry key="b0f440ab-b260-430b-8442-c1c5172603fc" value="localhost:42353/switch-account?workingDir=%2Fhome%2Fevincars%2Fevicars.github.com%2Finfra-hub&amp;panelId=b0f440ab-b260-430b-8442-c1c5172603fc&amp;theme=dark" />
         <entry key="cc217a82-96f0-49e3-a4f5-e30fd852a806" value="Claude Code" />
       </map>

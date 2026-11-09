@@ -18,11 +18,22 @@ const alertVariants = cva(
   }
 )
 
+/**
+ * LEARN:
+ * ten objekt jsou React props. Jde o destructuring prvního (a jediného) argumentu funkce.
+ * className a variant si komponenta bere stranou, protože s nimi pracuje sama. className spojí 
+ * s vlastními třídami přes cn(...) a variant použije v alertVariants({ variant }). 
+ * Všechno ostatní (id, onClick, style, children, aria-*, data-* …) se sesbírá do objektu props 
+ * (rest operátor). Ten se pak předá na <div {...props} /> (spread operátor). 
+ * Díky tomu se <Alert onClick={...}> chová jako normální <div>. Kdyby tam ...props nebylo, 
+ * všechny ostatní props by se tiše zahodily, včetně children. Pořadí je důležité. {...props} je až na konci, 
+ * takže může přepsat data-slot nebo role. className tam spadnout nemůže, protože už byl vyjmut.
+ */
 function Alert({
   className,
   variant,
   ...props
-}: React.ComponentProps<"div"> & VariantProps<typeof alertVariants>) {
+}: React.ComponentProps<"div"> & VariantProps<typeof alertVariants>) { // merge obou typů: standardní div props + varianty alertu
   return (
     <div
       data-slot="alert"
@@ -30,7 +41,7 @@ function Alert({
       className={cn(alertVariants({ variant }), className)}
       {...props}
     />
-  )
+  ) // return f-ce je React.TSX.Element
 }
 
 function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
