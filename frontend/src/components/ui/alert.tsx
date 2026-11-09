@@ -20,7 +20,7 @@ const alertVariants = cva(
 
 /**
  * LEARN:
- * ten objekt jsou React props. Jde o destructuring prvního (a jediného) argumentu funkce.
+ * ten objekt jsou React props. Jde o destructuring (`const {neco1, neco2} = fc(...)`) prvního A JEDINEHO argumentu funkce.
  * className a variant si komponenta bere stranou, protože s nimi pracuje sama. className spojí 
  * s vlastními třídami přes cn(...) a variant použije v alertVariants({ variant }). 
  * Všechno ostatní (id, onClick, style, children, aria-*, data-* …) se sesbírá do objektu props 
