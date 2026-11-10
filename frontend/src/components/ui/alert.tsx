@@ -23,7 +23,7 @@ const alertVariants = cva(
  * ten objekt jsou React props. Jde o destructuring (`const {neco1, neco2} = fc(...)`) prvního A JEDINEHO argumentu funkce.
  * className a variant si komponenta bere stranou, protože s nimi pracuje sama. className spojí 
  * s vlastními třídami přes cn(...) a variant použije v alertVariants({ variant }). 
- * Všechno ostatní (id, onClick, style, children, aria-*, data-* …) se sesbírá do objektu props 
+ * Všechno ostatní (id, onClick, style, children, aria-*, data-* …) se sesbírá do objektu `props `
  * (rest operátor). Ten se pak předá na <div {...props} /> (spread operátor). 
  * Díky tomu se <Alert onClick={...}> chová jako normální <div>. Kdyby tam ...props nebylo, 
  * všechny ostatní props by se tiše zahodily, včetně children. Pořadí je důležité. {...props} je až na konci, 
@@ -39,6 +39,7 @@ function Alert({
       data-slot="alert"
       role="alert"
       className={cn(alertVariants({ variant }), className)}
+      // všechny ostatní props se předají na div, children (text, tagy, dalsi komponenty) se vykresli uvnitr => default content-projection
       {...props}
     />
   ) // return f-ce je React.TSX.Element
